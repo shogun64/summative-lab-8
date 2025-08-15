@@ -28,7 +28,6 @@ def fetch_product(method, search):
                     "product_name": data.get("product", {}).get("product_name", "Unknown"),
                     "brands": data.get("product", {}).get("brands", "Unknown"),
                     "ingredients_text": data.get("product", {}).get("ingredients_text", ""),
-                    "image_url": data.get("product", {}).get("image_url", ""),
                     "nutriscore_grade": data.get("product", {}).get("nutriscore_grade", ""),
                     "categories": data.get("product", {}).get("categories", "")
                 }
