@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from api import fetch_product
 
 app = Flask(__name__)
 
@@ -46,6 +47,21 @@ def delete_item(id):
         return ("Item not found", 404)
     inventory = [i for i in inventory if i["id"] != id]
     return "", 204
+
+@app.route("/fetch", methods=["POST"])
+def fetch():
+    data = request.get_json() or {}
+    method = data.get("method")
+    search = data.get("search")
+    if not method:
+        return jsonify({'message': 'Method required (barcode or name)'}), 400
+    if not search:
+        return jsonify({'message': 'Search data required'}), 400
+    
+    products = fetch_product(method, search)
+    if not products:
+        return jsonify({'message': 'No matching products found in API'}), 404
+    return jsonify(products), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
